@@ -1,17 +1,14 @@
-package tron
-
+package crypto-goroutines
 import (
-    "context"
-    "crypto/ecdsa"
-    "encoding/hex"
-    "fmt"
-    "io/ioutil"
-    "math/big"
-    "math/rand"
-    "time"
+	"context"
+	"encoding/hex"
+	"fmt"
+	"io/ioutil"
+	"math/rand"
+	"time"
 
-    "github.com/TRON-US/go-tron/crypto"
-    "github.com/TRON-US/go-tron/rpc"
+	"github.com/TRON-US/go-tron/crypto"
+	"github.com/TRON-US/go-tron/rpc"
 )
 
 func tron() {

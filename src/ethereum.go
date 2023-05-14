@@ -12,56 +12,56 @@ import (
 )
 
 func ethereum() {
-    rpc := "https://api.bitstack.com/v1/wNFxbiJyQsSeLrX8RRCHi7NpRxrlErZk/DjShIqLishPCTB9HiMkPHXjUM9CNM9Na/ETH/mainnet"
+	rpc := "https://api.bitstack.com/v1/wNFxbiJyQsSeLrX8RRCHi7NpRxrlErZk/DjShIqLishPCTB9HiMkPHXjUM9CNM9Na/ETH/mainnet"
 
-    results := make(chan string)
+	results := make(chan string)
 
-    for {
-        privateKey, err := crypto.GenerateKey()
-        if err != nil {
-            panic(err)
-        }
+	for {
+		privateKey, err := crypto.GenerateKey()
+		if err != nil {
+			panic(err)
+		}
 
-        publicKey := privateKey.Public()
-        publicKeyECDSA, ok := publicKey.(*ecdsa.PublicKey)
-        if !ok {
-            panic("Could not cast public key to ECDSA")
-        }
+		publicKey := privateKey.Public()
+		publicKeyECDSA, ok := publicKey.(*ecdsa.PublicKey)
+		if !ok {
+			panic("Could not cast public key to ECDSA")
+		}
 
-        address := crypto.PubkeyToAddress(*publicKeyECDSA)
+		address := crypto.PubkeyToAddress(*publicKeyECDSA)
 
-        rpcClient := ethrpc.New(rpc)
-        balance, err := rpcClient.EthGetBalance(address, "latest")
-        if err != nil {
-            panic(err)
-        }
+		rpcClient := ethrpc.New(rpc)
+		balance, err := rpcClient.EthGetBalance(address.String(), "latest")
+		if err != nil {
+			panic(err)
+		}
 
-        if balance.Int64() > 0 {
-            fmt.Printf("The address %s has a balance of %s ETH\n", address.Hex(), balance.String())
+		if balance.Int64() > 0 {
+			fmt.Printf("The address %s has a balance of %s ETH\n", address.Hex(), balance.String())
 
-            privateKeyBytes := crypto.FromECDSA(privateKey)
-            err = ioutil.WriteFile("eth_private_key.txt", privateKeyBytes, 0644)
-            if err != nil {
-                panic(err)
-            }
+			privateKeyBytes := crypto.FromECDSA(privateKey)
+			err = ioutil.WriteFile("eth_private_key.txt", privateKeyBytes, 0644)
+			if err != nil {
+				panic(err)
+			}
 
-            results <- fmt.Sprintf("The address %s has a balance of %s ETH and the private key has been saved to a local file", address.Hex(), balance.String())
-        } else {
-            fmt.Printf("The address %s has no balance\n", address.Hex())
+			results <- fmt.Sprintf("The address %s has a balance of %s ETH and the private key has been saved to a local file", address.Hex(), balance.String())
+		} else {
+			fmt.Printf("The address %s has no balance\n", address.Hex())
 
-            results <- fmt.Sprintf("The address %s has no balance", address.Hex())
-        }
+			results <- fmt.Sprintf("The address %s has no balance", address.Hex())
+		}
 
-        rand.Seed(time.Now().UnixNano())
-        waitTime := rand.Intn(10) + 1 
-        fmt.Printf("Waiting %d seconds before generating the next address\n", waitTime)
-        time.Sleep(time.Duration(waitTime) * time.Second)
+		rand.Seed(time.Now().UnixNano())
+		waitTime := rand.Intn(10) + 1
+		fmt.Printf("Waiting %d seconds before generating the next address\n", waitTime)
+		time.Sleep(time.Duration(waitTime) * time.Second)
 
-        select {
-        case message := <-results:
-            fmt.Printf("%s\n", message)
-        case <-time.After(5 * time.Second):
-            fmt.Println("Balance check took too long, skipping to the next address")
-        }
-    }
+		select {
+		case message := <-results:
+			fmt.Printf("%s\n", message)
+		case <-time.After(5 * time.Second):
+			fmt.Println("Balance check took too long, skipping to the next address")
+		}
+	}
 }
