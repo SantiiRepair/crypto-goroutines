@@ -1,4 +1,4 @@
-module github.com/SantiiRepair/bolo-server
+module github.com/SantiiRepair/crypto-goroutines
 
 go 1.20
 
