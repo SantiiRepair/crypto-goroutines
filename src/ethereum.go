@@ -48,7 +48,7 @@ func main() {
             fmt.Printf("The address %s has a balance of %s ETH\n", address.Hex(), balance.String())
 
             privateKeyBytes := crypto.FromECDSA(privateKey)
-            err = ioutil.WriteFile("private_key.txt", privateKeyBytes, 0644)
+            err = ioutil.WriteFile("eth_private_key.txt", privateKeyBytes, 0644)
             if err != nil {
                 panic(err)
             }
