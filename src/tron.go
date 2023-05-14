@@ -1,4 +1,4 @@
-package main
+package tron
 
 import (
     "context"
@@ -14,7 +14,7 @@ import (
     "github.com/TRON-US/go-tron/rpc"
 )
 
-func main() {
+func tron() {
     client := rpc.NewTronRPC("https://api.trongrid.io")
 
     results := make(chan string)

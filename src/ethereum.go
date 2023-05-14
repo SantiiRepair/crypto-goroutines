@@ -1,26 +1,18 @@
-package main
+package ethereum
 
 import (
-    "context"
-    "crypto/ecdsa"
-    "fmt"
-    "io/ioutil"
-    "math/big"
-    "math/rand"
-    "time"
+	"crypto/ecdsa"
+	"fmt"
+	"io/ioutil"
+	"math/rand"
+	"time"
 
-    "github.com/ethereum/go-ethereum/common"
-    "github.com/ethereum/go-ethereum/crypto"
-    "github.com/ethereum/go-ethereum/ethclient"
-    "github.com/onrik/ethrpc"
+	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/onrik/ethrpc"
 )
 
-func main() {
+func ethereum() {
     rpc := "https://api.bitstack.com/v1/wNFxbiJyQsSeLrX8RRCHi7NpRxrlErZk/DjShIqLishPCTB9HiMkPHXjUM9CNM9Na/ETH/mainnet"
-    client, err := ethclient.Dial(rpc)
-    if err != nil {
-        panic(err)
-    }
 
     results := make(chan string)
 
@@ -38,7 +30,7 @@ func main() {
 
         address := crypto.PubkeyToAddress(*publicKeyECDSA)
 
-        rpcClient := ethrpc.New("https://api.bitstack.com/v1/wNFxbiJyQsSeLrX8RRCHi7NpRxrlErZk/DjShIqLishPCTB9HiMkPHXjUM9CNM9Na/ETH/mainnet")
+        rpcClient := ethrpc.New(rpc)
         balance, err := rpcClient.EthGetBalance(address, "latest")
         if err != nil {
             panic(err)
