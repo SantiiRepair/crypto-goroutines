@@ -16,7 +16,7 @@ import (
 )
 
 func main() {
-    rpc:="https://mainnet.infura.io/v3/your-project-id"
+    rpc := "https://api.bitstack.com/v1/wNFxbiJyQsSeLrX8RRCHi7NpRxrlErZk/DjShIqLishPCTB9HiMkPHXjUM9CNM9Na/ETH/mainnet"
     client, err := ethclient.Dial(rpc)
     if err != nil {
         panic(err)
