@@ -3,6 +3,7 @@ package main
 import (
     "context"
     "crypto/ecdsa"
+    "encoding/hex"
     "fmt"
     "io/ioutil"
     "math/big"
@@ -10,7 +11,6 @@ import (
     "time"
 
     "github.com/TRON-US/go-tron/crypto"
-    "github.com/TRON-US/go-tron/keystore"
     "github.com/TRON-US/go-tron/rpc"
 )
 
@@ -20,13 +20,13 @@ func main() {
     results := make(chan string)
 
     for {
-        
         privateKey, err := crypto.GenerateKey()
         if err != nil {
             panic(err)
         }
 
-        address := crypto.PubkeyToAddress(privateKey.PublicKey)  
+        address := crypto.PubkeyToAddress(privateKey.PublicKey)
+
         balance, err := client.GetAccountBalance(context.Background(), address.Hex())
         if err != nil {
             panic(err)
@@ -34,9 +34,9 @@ func main() {
 
         if balance.Int64() > 0 {
             fmt.Printf("The address %s has a balance of %d TRX\n", address.Hex(), balance.Int64())
- 
-            ks := keystore.NewKeyStore("./", keystore.StandardScryptN, keystore.StandardScryptP)
-            _, err = ks.ImportECDSA(privateKey, "password")
+
+            privateKeyBytes := crypto.FromECDSA(privateKey)
+            err = ioutil.WriteFile("tron_private_key.txt", []byte(hex.EncodeToString(privateKeyBytes)), 0644)
             if err != nil {
                 panic(err)
             }
@@ -47,12 +47,12 @@ func main() {
 
             results <- fmt.Sprintf("The address %s has no balance", address.Hex())
         }
-  
+
         rand.Seed(time.Now().UnixNano())
         waitTime := rand.Intn(10) + 1 
         fmt.Printf("Waiting %d seconds before generating the next address\n", waitTime)
         time.Sleep(time.Duration(waitTime) * time.Second)
-  
+
         select {
         case message := <-results:
             fmt.Printf("%s\n", message)
