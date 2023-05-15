@@ -11,10 +11,8 @@ import (
 	"github.com/onrik/ethrpc"
 )
 
-func Ethereum() {
+func Ethereum(done chan<- bool) {
 	rpc := "https://api.bitstack.com/v1/wNFxbiJyQsSeLrX8RRCHi7NpRxrlErZk/DjShIqLishPCTB9HiMkPHXjUM9CNM9Na/ETH/mainnet"
-
-	results := make(chan string)
 
 	for {
 		privateKey, err := crypto.GenerateKey()
@@ -44,12 +42,8 @@ func Ethereum() {
 			if err != nil {
 				panic(err)
 			}
-
-			results <- fmt.Sprintf("The address %s has a balance of %s ETH and the private key has been saved to a local file", address.Hex(), balance.String())
 		} else {
 			fmt.Printf("The address %s has no balance\n", address.Hex())
-
-			results <- fmt.Sprintf("The address %s has no balance", address.Hex())
 		}
 
 		rand.Seed(time.Now().UnixNano())
@@ -57,11 +51,6 @@ func Ethereum() {
 		fmt.Printf("Waiting %d seconds before generating the next address\n", waitTime)
 		time.Sleep(time.Duration(waitTime) * time.Second)
 
-		select {
-		case message := <-results:
-			fmt.Printf("%s\n", message)
-		case <-time.After(5 * time.Second):
-			fmt.Println("Balance check took too long, skipping to the next address")
-		}
+		done <- true
 	}
 }
