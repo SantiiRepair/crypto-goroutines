@@ -9,7 +9,7 @@ import (
 	"github.com/SantiiRepair/crypto-goroutines/src/tron"
 )
 
-func crypto_goroutines() {
+func main() {
 	p, err := plugin.Open("crypto-goroutines.so")
 	if err != nil {
 		panic(err)
