@@ -1,12 +1,11 @@
 package crypto_goroutines
 
 import (
+	"./ethereum"
+	"./tron"
 	"fmt"
 	"plugin"
 	"time"
-
-	"github.com/SantiiRepair/crypto-goroutines/ethereum"
-	"github.com/SantiiRepair/crypto-goroutines/tron"
 )
 
 func main() {
