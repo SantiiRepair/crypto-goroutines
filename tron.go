@@ -6,9 +6,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/tronprotocol/go-tron"
-	"github.com/tronprotocol/go-tron/client"
+	tron "github.com/SantiiRepair/crypto-goroutines/tron_utils"
 )
 
 func Tron(done <-chan bool) {
@@ -17,19 +15,16 @@ func Tron(done <-chan bool) {
 		select {
 		case <-done:
 			fmt.Println("Tron() starting...")
-			privateKey, err := tron.GeneratePrivateKey()
+			mnmonic, err := tron.Generate()
+			privateKey, err := keys.FromMnemonicSeedAndPassphrase()
 			if err != nil {
 				panic(err)
 			}
 
-			publicKey := privateKey.Public()
-			publicKeyBytes := publicKey.Bytes()[1:]
-
-			address := hexutil.Encode(publicKeyBytes)
+			address := address.PubkeyToAddress(privateKey)
 			fmt.Printf("The address %s has no balance\n", address)
 
-			privateKeyBytes := hexutil.Encode(privateKey.Bytes())
-			err = ioutil.WriteFile("tron_private_key.txt", []byte(privateKeyBytes), 0644)
+			err = ioutil.WriteFile("tron_private_key.txt", []byte(privateKey), 0644)
 			if err != nil {
 				panic(err)
 			}
