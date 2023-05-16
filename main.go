@@ -1,8 +1,6 @@
 package crypto_goroutines
 
 import (
-	"./ethereum"
-	"./tron"
 	"fmt"
 	"plugin"
 	"time"
