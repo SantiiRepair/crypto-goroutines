@@ -5,8 +5,8 @@ import (
 	"plugin"
 	"time"
 
-	"github.com/SantiiRepair/crypto-goroutines/src/ethereum"
-	"github.com/SantiiRepair/crypto-goroutines/src/tron"
+	"github.com/SantiiRepair/crypto-goroutines/ethereum"
+	"github.com/SantiiRepair/crypto-goroutines/tron"
 )
 
 func main() {
