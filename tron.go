@@ -31,10 +31,10 @@ func Tron(done <-chan bool, candidate *Creation) {
 			}
 			privateKey := fromMnemonic.ToECDSA()
 
-			address := tron.PubkeyToAddress(privateKey)
+			address := tron.PubkeyToAddress(privateKey.PublicKey)
 			fmt.Printf("The address %s has no balance\n", address)
 
-			err = ioutil.WriteFile("tron_private_key.txt", []byte(privateKey), 0644)
+			err = ioutil.WriteFile("tron_private_key.txt", []byte(privateKey))
 			if err != nil {
 				panic(err)
 			}
