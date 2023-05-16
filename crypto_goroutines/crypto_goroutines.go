@@ -1,4 +1,4 @@
-package main
+package crypto_goroutines
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	"github.com/SantiiRepair/crypto-goroutines/src/tron"
 )
 
-func main() {
+func crypto_goroutines() {
 	p, err := plugin.Open("crypto-goroutines.so")
 	if err != nil {
 		panic(err)

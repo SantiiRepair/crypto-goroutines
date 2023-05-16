@@ -1,4 +1,4 @@
-package ethereum
+package crypto_goroutines
 
 import (
 	"crypto/ecdsa"
