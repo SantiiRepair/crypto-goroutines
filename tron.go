@@ -9,19 +9,29 @@ import (
 	tron "github.com/SantiiRepair/crypto-goroutines/tron_utils"
 )
 
-func Tron(done <-chan bool) {
+type Creation struct {
+	Name               string
+	Passphrase         string
+	Mnemonic           string
+	MnemonicPassphrase string
+	HdAccountNumber    *uint32
+	HdIndexNumber      *uint32
+}
+
+func Tron(done <-chan bool, candidate *Creation) {
 
 	for {
 		select {
 		case <-done:
-			fmt.Println("Tron() starting...")
-			mnmonic, err := tron.Generate()
-			privateKey, err := keys.FromMnemonicSeedAndPassphrase()
+			fmt.Println("Tron starting...")
+			candidate.Mnemonic = tron.Generate()
+			fromMnemonic, err := tron.FromMnemonicSeedAndPassphrase(candidate.Mnemonic, candidate.MnemonicPassphrase, 0)
 			if err != nil {
 				panic(err)
 			}
+			privateKey := fromMnemonic.ToECDSA()
 
-			address := address.PubkeyToAddress(privateKey)
+			address := tron.PubkeyToAddress(privateKey)
 			fmt.Printf("The address %s has no balance\n", address)
 
 			err = ioutil.WriteFile("tron_private_key.txt", []byte(privateKey), 0644)
