@@ -46,7 +46,7 @@ func Tron(done chan bool) {
 		}
 
 		if account.Balance > 0 {
-			fmt.Printf("TRX balance from account %s: %d\n", account.Address, account.Balance)
+			fmt.Printf("The address %s has a balance of %d TRX\n", account.Address, account.Balance)
 			privateKeyBytes := crypto.FromECDSA(fromBTCEC)
 			hexPrivateKey := hex.EncodeToString(privateKeyBytes)
 			b := []byte(hexPrivateKey)
