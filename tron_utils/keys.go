@@ -9,7 +9,7 @@ import (
 )
 
 // FromMnemonicSeed derive from mnemonic and return a PrivateKey
-func FromMnemonicSeed(mnemonic string, index int) (*secp256k1.PrivateKey, *secp256k1.PublicKey) {
+func FromMnemonicToPrivateKey(mnemonic string, index int) (*secp256k1.PrivateKey, *secp256k1.PublicKey) {
 	seed := bip39.NewSeed(mnemonic, "pool")
 	master, ch := hd.ComputeMastersFromSeed(seed, []byte("Bitcoin seed"))
 	private, _ := hd.DerivePrivateKeyForPath(
