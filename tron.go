@@ -19,7 +19,6 @@ type Creation struct {
 }
 
 func Tron(done chan bool) {
-	fmt.Println("Tron starting...")
 	mnemonic := tron.Generate()
 	fromMnemonic, err := tron.FromMnemonicSeedAndPassphrase(mnemonic, 0)
 	if err != nil {

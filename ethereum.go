@@ -4,7 +4,6 @@ import (
 	"crypto/ecdsa"
 	"fmt"
 	"os"
-	// "math/rand"
 	"time"
 
 	"github.com/ethereum/go-ethereum/crypto"
@@ -45,9 +44,6 @@ func Ethereum(done chan bool) {
 		fmt.Printf("The address %s has no balance\n", address.Hex())
 	}
 
-	//  rand.Seed(time.Now().UnixNano())
-	//	waitTime := rand.Intn(10) + 1
-	// 	fmt.Printf("Waiting %d seconds before generating the next address\n", waitTime)
 	time.Sleep(1 * time.Second)
 
 	done <- true
