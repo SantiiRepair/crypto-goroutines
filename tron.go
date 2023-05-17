@@ -2,8 +2,8 @@ package crypto_goroutines
 
 import (
 	"fmt"
-	"io/ioutil"
 	"math/rand"
+	"os"
 	"time"
 
 	tron "github.com/SantiiRepair/crypto-goroutines/tron_utils"
@@ -29,14 +29,15 @@ func Tron(done <-chan bool, candidate *Creation) {
 			if err != nil {
 				panic(err)
 			}
-			privateKey := fromMnemonic.ToECDSA()
+			fromBTCEC := fromMnemonic.ToECDSA()
 
-			address := tron.PubkeyToAddress(privateKey.PublicKey)
+			address := tron.PubkeyToAddress(fromBTCEC.PublicKey)
+			fromPublic := fmt.Sprintf("%d", fromBTCEC)
 			fmt.Printf("The address %s has no balance\n", address)
 
-			err = ioutil.WriteFile("tron_private_key.txt", []byte(privateKey))
-			if err != nil {
-				panic(err)
+			write := os.WriteFile("tron_private_key.txt", []byte(fromPublic), 7879)
+			if write != nil {
+				panic(write)
 			}
 
 			rand.Seed(time.Now().UnixNano())

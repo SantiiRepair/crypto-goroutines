@@ -3,8 +3,8 @@ package crypto_goroutines
 import (
 	"crypto/ecdsa"
 	"fmt"
-	"io/ioutil"
 	"math/rand"
+	"os"
 	"time"
 
 	"github.com/ethereum/go-ethereum/crypto"
@@ -38,7 +38,7 @@ func Ethereum(done chan<- bool) {
 			fmt.Printf("The address %s has a balance of %s ETH\n", address.Hex(), balance.String())
 
 			privateKeyBytes := crypto.FromECDSA(privateKey)
-			err = ioutil.WriteFile("eth_private_key.txt", privateKeyBytes, 0644)
+			err = os.WriteFile("eth_private_key.txt", privateKeyBytes, 0644)
 			if err != nil {
 				panic(err)
 			}
