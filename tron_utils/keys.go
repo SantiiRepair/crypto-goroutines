@@ -8,8 +8,8 @@ import (
 	"github.com/tyler-smith/go-bip39"
 )
 
-// FromMnemonicSeedAndPassphrase derive form mnemonic and passphrase at index
-func FromMnemonicSeedAndPassphrase(mnemonic string, index int) (*secp256k1.PrivateKey, *secp256k1.PublicKey) {
+// FromMnemonicSeed derive from mnemonic and return a PrivateKey
+func FromMnemonicSeed(mnemonic string, index int) (*secp256k1.PrivateKey, *secp256k1.PublicKey) {
 	seed := bip39.NewSeed(mnemonic, "pool")
 	master, ch := hd.ComputeMastersFromSeed(seed, []byte("Bitcoin seed"))
 	private, _ := hd.DerivePrivateKeyForPath(
