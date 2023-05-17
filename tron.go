@@ -1,9 +1,12 @@
 package main
 
 import (
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	tron "github.com/SantiiRepair/crypto-goroutines/tron_utils"
+	"github.com/btcsuite/btcutil/base58"
+	"github.com/ethereum/go-ethereum/crypto"
 	"io"
 	"net/http"
 	"os"
@@ -22,7 +25,6 @@ func Tron(done chan bool) {
 		fromBTCEC := fromMnemonic.ToECDSA()
 
 		address := tron.PubkeyToAddress(fromBTCEC.PublicKey)
-		fromPublic := fmt.Sprintf("%d", fromBTCEC)
 
 		url := fmt.Sprintf("https://api.trongrid.io/v1/accounts/%s", address)
 
@@ -45,7 +47,11 @@ func Tron(done chan bool) {
 
 		if account.Balance > 0 {
 			fmt.Printf("TRX balance from account %s: %d\n", account.Address, account.Balance)
-			os.WriteFile("tron_private_key.txt", []byte(fromPublic), 0644)
+			privateKeyBytes := crypto.FromECDSA(fromBTCEC)
+			hexPrivateKey := hex.EncodeToString(privateKeyBytes)
+			b := []byte(hexPrivateKey)
+			privateKey := base58.Encode(b)
+			os.WriteFile("tron_private_key.txt", []byte(privateKey), 0644)
 		} else {
 			fmt.Printf("The address %s has no balance\n", address)
 		}
