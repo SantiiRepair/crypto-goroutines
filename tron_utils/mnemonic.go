@@ -2,7 +2,6 @@ package tron
 
 import (
 	"fmt"
-
 	"github.com/tyler-smith/go-bip39"
 )
 

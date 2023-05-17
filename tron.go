@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	tron "github.com/SantiiRepair/crypto-goroutines/tron_utils"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"time"
@@ -32,7 +32,7 @@ func Tron(done chan bool) {
 		}
 		defer resp.Body.Close()
 
-		body, err := ioutil.ReadAll(resp.Body)
+		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			panic(err)
 		}
