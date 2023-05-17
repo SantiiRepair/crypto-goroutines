@@ -1,4 +1,4 @@
-package crypto_goroutines
+package main
 
 import (
 	"fmt"
@@ -18,14 +18,13 @@ type Creation struct {
 	HdIndexNumber      *uint32
 }
 
-func Tron(done <-chan bool, candidate *Creation) {
-
+func Tron(done <-chan bool ) {
 	for {
 		select {
 		case <-done:
 			fmt.Println("Tron starting...")
-			candidate.Mnemonic = tron.Generate()
-			fromMnemonic, err := tron.FromMnemonicSeedAndPassphrase(candidate.Mnemonic, candidate.MnemonicPassphrase, 0)
+			mnemonic := tron.Generate()
+			fromMnemonic, err := tron.FromMnemonicSeedAndPassphrase(mnemonic, 0)
 			if err != nil {
 				panic(err)
 			}

@@ -1,4 +1,4 @@
-package crypto_goroutines
+package main
 
 import (
 	"crypto/ecdsa"
